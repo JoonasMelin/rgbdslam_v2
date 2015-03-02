@@ -943,6 +943,8 @@ void OpenNIListener::retrieveTransformations(std_msgs::Header depth_header, Node
     //Retrieve the ground truth data. For the first frame it will be
     //set as origin. the rest will be used to compare
     tf::StampedTransform current_odom_transform;
+    ROS_INFO("Depth frame id is %s", depth_frame_id.c_str());
+    ROS_INFO("odom_frame is %s", odom_frame.c_str());
     try{
       tflistener_->waitForTransform(depth_frame_id, odom_frame, depth_time, ros::Duration(0.005));
       tflistener_->lookupTransform( depth_frame_id, odom_frame, depth_time, current_odom_transform);

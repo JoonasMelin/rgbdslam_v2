@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.4.6)
 #########################################################
 ### USER CONFIG #########################################
 #########################################################
-set(USE_SIFT_GPU        1) 
+set(USE_SIFT_GPU        0) 
 set(ENV{SIFT_GPU_MODE}	2) #CUDA = 1, GLSL = 2
 set(ENV{SIFT_GPU_CUDA_PATH}	/usr/local/cuda)	
 set(USE_GICP_BIN		0)
@@ -18,7 +18,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #SET(CMAKE_CXX_FLAGS "-O3 -fPIC -std=c++0x")
 #For annotated profiling with perf: 
-SET(CMAKE_CXX_FLAGS "-ggdb -O3 -fPIC -std=c++0x")
+SET(CMAKE_CXX_FLAGS "-ggdb -O3 -fPIC -std=c++11")
 
 IF (${USE_GL2PS})
   add_definitions(-DGL2PS)
@@ -63,7 +63,7 @@ link_libraries(rgbdslam ${catkin_LIBRARIES})
 # Required 3rd party
 ####################################################
 # PCL #######################
-find_package(PCL 1.7 REQUIRED COMPONENTS common io)
+find_package(PCL 1.8 REQUIRED COMPONENTS common io)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -226,6 +226,7 @@ add_dependencies(rgbdslam rgbdslam_gencpp)
 #SET(LIBS_LINK GL GLU -lgl2ps ${G2O_LIBS} ${QT_LIBRARIES} ${QT_QTOPENGL_LIBRARY} ${GLUT_LIBRARY} ${OPENGL_LIBRARY} ${OpenCV_LIBS})
 #Use specific version of cxsparse, to avoid linker warning about possible conflicts between versions 2.2.3 (linked from g2o) and 3.1.0
 SET(LIBS_LINK GL GLU cholmod /usr/lib/libcxsparse.so.2.2.3 ${G2O_LIBRARIES} ${QT_LIBRARIES} ${QT_QTOPENGL_LIBRARY} ${GLUT_LIBRARY} ${OPENGL_LIBRARY} ${OpenCV_LIBS})
+# /usr/local/lib/libpcl_common.so /usr/local/lib/libpcl_io.so.1.8 /usr/local/lib/libpcl_features.so /usr/local/lib/libpcl_filters.so /usr/local/lib/libpcl_io_ply.so /usr/local/lib/libpcl_kdtree.so /usr/local/lib/libpcl_keypoints.so /usr/local/lib/libpcl_ml.so /usr/local/lib/libpcl_octree.so /usr/local/lib/libpcl_outofcore.so /usr/local/lib/libpcl_people.so /usr/local/lib/libpcl_recognition.so /usr/local/lib/libpcl_registration.so /usr/local/lib/libpcl_sample_consensus.so /usr/local/lib/libpcl_search.so /usr/local/lib/libpcl_segmentation.so /usr/local/lib/libpcl_stereo.so /usr/local/lib/libpcl_surface.so /usr/local/lib/libpcl_tracking.so /usr/local/lib/libpcl_visualization.so )
 #-lboost_signals -lrt -loctomap -loctomap_server -loctomath)
 
 IF (${USE_SIFT_GPU})
